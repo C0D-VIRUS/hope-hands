@@ -1,0 +1,72 @@
+CREATE DATABASE IF NOT EXISTS `hope_hands` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE `hope_hands`;
+
+CREATE TABLE IF NOT EXISTS ngos (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  ngo_uuid CHAR(36) NOT NULL UNIQUE,
+  ngo_name VARCHAR(180) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  ngo_location VARCHAR(255) NOT NULL,
+  ngo_map_link VARCHAR(500) NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS auth_sessions (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  session_token CHAR(64) NOT NULL UNIQUE,
+  role VARCHAR(20) NOT NULL,
+  ngo_id INT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NOT NULL,
+  CONSTRAINT fk_auth_session_ngo
+    FOREIGN KEY (ngo_id) REFERENCES ngos(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ngo_requests (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  request_uuid CHAR(36) NOT NULL UNIQUE,
+  ngo_id INT NULL,
+  ngo_name VARCHAR(180) NOT NULL,
+  ngo_location VARCHAR(255) NOT NULL,
+  ngo_map_link VARCHAR(500) NULL,
+  item_name VARCHAR(150) NOT NULL,
+  category VARCHAR(80) NOT NULL,
+  quantity VARCHAR(120) NOT NULL,
+  needed_quantity_value DECIMAL(10,2) NULL,
+  quantity_unit VARCHAR(50) NULL,
+  received_quantity_value DECIMAL(10,2) NOT NULL DEFAULT 0,
+  description TEXT NOT NULL,
+  image_url VARCHAR(500) NULL,
+  contact_email VARCHAR(255) NOT NULL,
+  urgent BOOLEAN NOT NULL DEFAULT FALSE,
+  status VARCHAR(30) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_request_ngo
+    FOREIGN KEY (ngo_id) REFERENCES ngos(id)
+    ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS donations (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  donation_uuid CHAR(36) NOT NULL UNIQUE,
+  request_id INT NULL,
+  request_uuid CHAR(36) NULL,
+  donor_name VARCHAR(150) NOT NULL,
+  donor_phone VARCHAR(40) NOT NULL,
+  donor_email VARCHAR(255) NOT NULL,
+  item_name VARCHAR(150) NOT NULL,
+  quantity VARCHAR(120) NOT NULL,
+  pickup_address TEXT NOT NULL,
+  notes TEXT NULL,
+  email_status VARCHAR(30) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_donation_request
+    FOREIGN KEY (request_id) REFERENCES ngo_requests(id)
+    ON DELETE SET NULL
+);

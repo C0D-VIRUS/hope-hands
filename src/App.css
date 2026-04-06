@@ -1,0 +1,70 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ===== TEAM SECTION IMAGE ===== */
+
+.team-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;              
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.team-card img {
+  width: 100%;
+  height: 240px;                 
+  object-fit: cover;              
+  display: block;
+}
+
+.team-card h4 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.team-card span {
+  color: #777;
+  font-size: 14px;
+}
