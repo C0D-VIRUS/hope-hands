@@ -479,29 +479,39 @@ app.post('/api/donations', async (req, res) => {
     },
   );
 
-  if (linkedRequest?.neededQuantityValue !== null) {
+  if (linkedRequest && linkedRequest.neededQuantityValue !== null) {
     const donated = parseQuantity(payload.quantity);
+  
     const donatedUnit = normalizeQuantityUnit(donated.unit, payload.itemName);
-    const requestUnit = normalizeQuantityUnit(linkedRequest.quantityUnit, linkedRequest.itemName);
+  
+    const requestUnit = normalizeQuantityUnit(
+      linkedRequest?.quantityUnit || '',
+      linkedRequest?.itemName || ''
+    );
+  
     const sameUnit = donatedUnit === requestUnit;
-
+  
     if (donated.numericValue !== null && sameUnit) {
       const newReceived = linkedRequest.receivedQuantityValue + donated.numericValue;
-      const nextStatus = newReceived >= linkedRequest.neededQuantityValue ? 'fulfilled' : linkedRequest.status;
-
+  
+      const nextStatus =
+        newReceived >= linkedRequest.neededQuantityValue
+          ? 'fulfilled'
+          : linkedRequest.status;
+  
       await getPool().query(
         `UPDATE ngo_requests
          SET received_quantity_value = ?, status = ?
          WHERE id = ?`,
-        [newReceived, nextStatus, linkedRequest.id],
+        [newReceived, nextStatus, linkedRequest.id]
       );
-
+  
       linkedRequest = await readRequestById(linkedRequest.id);
     } else {
       console.log('[donation] Quantity progress not updated', {
-        requestId: linkedRequest.id,
+        requestId: linkedRequest?.id,
         donatedQuantity: payload.quantity,
-        requestQuantity: linkedRequest.quantity,
+        requestQuantity: linkedRequest?.quantity,
         donatedUnit,
         requestUnit,
         donatedNumericValue: donated.numericValue,
