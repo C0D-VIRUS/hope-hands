@@ -813,7 +813,7 @@ function DonationModal({ request, onClose }) {
                     name="email"
                     type="email"
                     required
-                    pattern="^[a-zA-Z0-9._%+-]+@gmail\\.com$"
+                    pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
                     value={form.email}
                     onChange={handleChange}
                     placeholder="you@gmail.com"
@@ -1130,7 +1130,7 @@ function AddRequestPage({ onAdd, ngoSession, setCurrentPage }) {
                       name="contact"
                       type="email"
                       required
-                      pattern="^[a-zA-Z0-9._%+-]+@gmail\\.com$"
+                      pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
                       value={form.contact}
                       onChange={handleChange}
                       placeholder="ngo@gmail.com"
@@ -1284,7 +1284,7 @@ function ContactPage() {
                       name="email"
                       type="email"
                       required
-                      pattern="^[a-zA-Z0-9._%+-]+@gmail\\.com$"
+                      pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
                       value={form.email}
                       onChange={handleChange}
                       placeholder="you@gmail.com"
