@@ -1,5 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
-
+const BASE_URL = "https://hope-hands.onrender.com/api";
 const authHeaders = (token) => (
   token
     ? { Authorization: `Bearer ${token}` }

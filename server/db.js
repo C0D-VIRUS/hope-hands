@@ -5,7 +5,7 @@ const {
   MYSQL_PORT = '3306',
   MYSQL_USER = 'root',
   MYSQL_PASSWORD = '',
-  MYSQL_DATABASE = 'hope_hands',
+  MYSQL_DATABASE = 'railway',
 } = process.env;
 
 const poolConfig = {

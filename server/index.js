@@ -651,7 +651,7 @@ app.get('/api/admin/donations', requireAdmin, async (_req, res) => {
   res.json(rows.map(mapDonationRow));
 });
 
-app.use((error, _req, res) => {
+app.use((error, _req, res, _next) => {
   console.error(error);
   res.status(500).json({ message: 'Internal server error.' });
 });
